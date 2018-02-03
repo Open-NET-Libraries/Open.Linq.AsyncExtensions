@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <Authors>electricessence</Authors>
+    <Company>electricessence</Company>
+    <PackageLicenseUrl>https://github.com/electricessence/Open.Linq.AsyncExtensions/blob/master/LICENSE</PackageLicenseUrl>
+    <PackageProjectUrl>https://github.com/electricessence/Open.Linq.AsyncExtensions</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/electricessence/Open.Linq.AsyncExtensions</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <Description>Extensions for method chaining Task&lt;IEnumerable&lt;T&gt;&gt;.  Directly map to synchronous System.Linq methods.</Description>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+  </PropertyGroup>
+
+</Project>
