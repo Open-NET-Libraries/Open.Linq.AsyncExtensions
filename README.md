@@ -1,2 +1,2 @@
 # Open.Linq.AsyncExtensions
-Exposes Linq methods any `Task&lt;IEnumerable&lt;T>>`.
+Exposes Linq methods any `Task<IEnumerable<T>>`.
