@@ -36,8 +36,8 @@ namespace Open.Linq.AsyncExtensions
         //
         //   T:System.InvalidOperationException:
         //     source contains no elements.
-        public static async Task<TSource> Aggregate<TSource>(
-			this Task<IEnumerable<TSource>> source,
+        public static async Task<TSource> Aggregate<T, TSource>(
+            this Task<IEnumerable<TSource>> source,
             Func<TSource, TSource, TSource> func)
             => (await source).Aggregate(func);
 
@@ -69,8 +69,8 @@ namespace Open.Linq.AsyncExtensions
         // Exceptions:
         //   T:System.ArgumentNullException:
         //     source or func is null.
-        public static async Task<TAccumulate> Aggregate<TSource, TAccumulate>(
-			this Task<IEnumerable<TSource>> source, TAccumulate seed,
+        public static async Task<TAccumulate> Aggregate<T, TSource, TAccumulate>(
+            this Task<IEnumerable<TSource>> source, TAccumulate seed,
             Func<TAccumulate, TSource, TAccumulate> func)
             => (await source).Aggregate(seed, func);
 
@@ -109,8 +109,8 @@ namespace Open.Linq.AsyncExtensions
         // Exceptions:
         //   T:System.ArgumentNullException:
         //     source or func or resultSelector is null.
-        public static async Task<TResult> Aggregate<TSource, TAccumulate, TResult>(
-			this Task<IEnumerable<TSource>> source,
+        public static async Task<TResult> Aggregate<T, TSource, TAccumulate, TResult>(
+            this Task<IEnumerable<TSource>> source,
             TAccumulate seed,
             Func<TAccumulate, TSource, TAccumulate> func,
             Func<TAccumulate, TResult> resultSelector)
@@ -139,9 +139,10 @@ namespace Open.Linq.AsyncExtensions
         // Exceptions:
         //   T:System.ArgumentNullException:
         //     source or predicate is null.
-        public static async Task<bool> All<TSource>(
-			this Task<IEnumerable<TSource>> source, Func<TSource, bool> predicate)
-			=> (await source).All(predicate);
+        public static async Task<bool> All<T, TSource>(
+            this Task<T> source, Func<TSource, bool> predicate)
+			where T: IEnumerable<TSource>
+            => (await source).All(predicate);
         //
         // Summary:
         //     Determines whether a sequence contains any elements.
@@ -160,9 +161,10 @@ namespace Open.Linq.AsyncExtensions
         // Exceptions:
         //   T:System.ArgumentNullException:
         //     source is null.
-        public static async Task<bool> Any<TSource>(
-			this Task<IEnumerable<TSource>> source)
-			=> (await source).Any();
+        public static async Task<bool> Any<T, TSource>(
+            this Task<T> source)
+			where T: IEnumerable<TSource>
+            => (await source).Any();
         //
         // Summary:
         //     Determines whether any element of a sequence satisfies a condition.
@@ -186,9 +188,10 @@ namespace Open.Linq.AsyncExtensions
         // Exceptions:
         //   T:System.ArgumentNullException:
         //     source or predicate is null.
-        public static async Task<bool> Any<TSource>(
-			this Task<IEnumerable<TSource>> source, Func<TSource, bool> predicate)
-			=> (await source).Any(predicate);
+        public static async Task<bool> Any<T, TSource>(
+            this Task<T> source, Func<TSource, bool> predicate)
+			where T: IEnumerable<TSource>
+            => (await source).Any(predicate);
         //
         // Parameters:
         //   source:
@@ -198,9 +201,10 @@ namespace Open.Linq.AsyncExtensions
         // Type parameters:
         //   TSource:
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public static async Task<IEnumerable<TSource>> Append<TSource>(
-			this Task<IEnumerable<TSource>> source, TSource element)
-			=> (await source).Append(element);
+        public static async Task<IEnumerable<TSource>> Append<T, TSource>(
+            this Task<T> source, TSource element)
+			where T: IEnumerable<TSource>
+            => (await source).Append(element);
         //
         // Summary:
         //     Returns the input typed as System.Collections.Generic.IEnumerable`1.
@@ -215,9 +219,10 @@ namespace Open.Linq.AsyncExtensions
         //
         // Returns:
         //     The input sequence typed as System.Collections.Generic.IEnumerable`1.
-        public static async Task<IEnumerable<TSource>> AsEnumerable<TSource>(
-			this Task<IEnumerable<TSource>> source)
-			=> (await source).AsEnumerable();
+        public static async Task<IEnumerable<TSource>> AsEnumerable<T, TSource>(
+            this Task<T> source)
+			where T: IEnumerable<TSource>
+            => (await source).AsEnumerable();
         //
         // Summary:
         //     Computes the average of a sequence of System.Int64 values that are obtained by
@@ -498,7 +503,10 @@ namespace Open.Linq.AsyncExtensions
         //     The sum of the elements in the sequence is larger than System.Decimal.MaxValue.
         public static async Task<decimal> Average<TSource>(
 			this Task<IEnumerable<TSource>> source, Func<TSource, decimal> selector)
-			=> (await source).Average(selector);
+        public static async Task<decimal> Average<T, TSource>(
+            this Task<T> source, Func<TSource, decimal> selector)
+			where T: IEnumerable<TSource>
+            => (await source).Average(selector);
         //
         // Summary:
         //     Computes the average of a sequence of System.Decimal values.
@@ -721,9 +729,10 @@ namespace Open.Linq.AsyncExtensions
         //
         //   T:System.InvalidCastException:
         //     An element in the sequence cannot be cast to type TResult.
-        public static async Task<IEnumerable<TResult>> Cast<TResult>(
-			this Task<IEnumerable> source)
-			=> (await source).Cast<TResult>();
+        public static async Task<IEnumerable<TResult>> Cast<T, TResult>(
+            this Task<T> source)
+			where T: IEnumerable
+            => (await source).Cast<TResult>();
         //
         // Summary:
         //     Concatenates two sequences.
@@ -746,9 +755,10 @@ namespace Open.Linq.AsyncExtensions
         // Exceptions:
         //   T:System.ArgumentNullException:
         //     first or second is null.
-        public static async Task<IEnumerable<TSource>> Concat<TSource>(
-			this Task<IEnumerable<TSource>> first, IEnumerable<TSource> second)
-			=> (await first).Concat(second);
+        public static async Task<IEnumerable<TSource>> Concat<T, TSource>(
+            this Task<T> first, IEnumerable<TSource> second)
+			where T: IEnumerable<TSource>
+            => (await first).Concat(second);
         //
         // Summary:
         //     Determines whether a sequence contains a specified element by using the default
@@ -772,9 +782,10 @@ namespace Open.Linq.AsyncExtensions
         // Exceptions:
         //   T:System.ArgumentNullException:
         //     source is null.
-        public static async Task<bool> Contains<TSource>(
-			this Task<IEnumerable<TSource>> source, TSource value)
-			=> (await source).Contains(value);
+        public static async Task<bool> Contains<T, TSource>(
+            this Task<T> source, TSource value)
+			where T: IEnumerable<TSource>
+            => (await source).Contains(value);
         //
         // Summary:
         //     Determines whether a sequence contains a specified element by using a specified
@@ -801,9 +812,10 @@ namespace Open.Linq.AsyncExtensions
         // Exceptions:
         //   T:System.ArgumentNullException:
         //     source is null.
-        public static async Task<bool> Contains<TSource>(
-			this Task<IEnumerable<TSource>> source, TSource value, IEqualityComparer<TSource> comparer)
-			=> (await source).Contains(value, comparer);
+        public static async Task<bool> Contains<T, TSource>(
+            this Task<T> source, TSource value, IEqualityComparer<TSource> comparer)
+			where T: IEnumerable<TSource>
+            => (await source).Contains(value, comparer);
         //
         // Summary:
         //     Returns the number of elements in a sequence.
@@ -825,9 +837,10 @@ namespace Open.Linq.AsyncExtensions
         //
         //   T:System.OverflowException:
         //     The number of elements in source is larger than System.Int32.MaxValue.
-        public static async Task<int> Count<TSource>(
-			this Task<IEnumerable<TSource>> source)
-			=> (await source).Count();
+        public static async Task<int> Count<T, TSource>(
+            this Task<T> source)
+			where T: IEnumerable<TSource>
+            => (await source).Count();
         //
         // Summary:
         //     Returns a number that represents how many elements in the specified sequence
@@ -854,9 +867,10 @@ namespace Open.Linq.AsyncExtensions
         //
         //   T:System.OverflowException:
         //     The number of elements in source is larger than System.Int32.MaxValue.
-        public static async Task<int> Count<TSource>(
-			this Task<IEnumerable<TSource>> source, Func<TSource, bool> predicate)
-			=> (await source).Count(predicate);
+        public static async Task<int> Count<T, TSource>(
+            this Task<T> source, Func<TSource, bool> predicate)
+			where T: IEnumerable<TSource>
+            => (await source).Count(predicate);
         //
         // Summary:
         //     Returns the elements of the specified sequence or the type parameter's default
@@ -877,9 +891,10 @@ namespace Open.Linq.AsyncExtensions
         // Exceptions:
         //   T:System.ArgumentNullException:
         //     source is null.
-        public static async Task<IEnumerable<TSource>> DefaultIfEmpty<TSource>(
-			this Task<IEnumerable<TSource>> source)
-			=> (await source).DefaultIfEmpty();
+        public static async Task<IEnumerable<TSource>> DefaultIfEmpty<T, TSource>(
+            this Task<T> source)
+			where T: IEnumerable<TSource>
+            => (await source).DefaultIfEmpty();
         //
         // Summary:
         //     Returns the elements of the specified sequence or the specified value in a singleton
@@ -899,9 +914,10 @@ namespace Open.Linq.AsyncExtensions
         // Returns:
         //     An System.Collections.Generic.IEnumerable`1 that contains defaultValue if source
         //     is empty; otherwise, source.
-        public static async Task<IEnumerable<TSource>> DefaultIfEmpty<TSource>(
-			this Task<IEnumerable<TSource>> source, TSource defaultValue)
-			=> (await source).DefaultIfEmpty(defaultValue);
+        public static async Task<IEnumerable<TSource>> DefaultIfEmpty<T, TSource>(
+            this Task<T> source, TSource defaultValue)
+			where T: IEnumerable<TSource>
+            => (await source).DefaultIfEmpty(defaultValue);
         //
         // Summary:
         //     Returns distinct elements from a sequence by using the default equality comparer
@@ -922,9 +938,10 @@ namespace Open.Linq.AsyncExtensions
         // Exceptions:
         //   T:System.ArgumentNullException:
         //     source is null.
-        public static async Task<IEnumerable<TSource>> Distinct<TSource>(
-			this Task<IEnumerable<TSource>> source)
-			=> (await source).Distinct();
+        public static async Task<IEnumerable<TSource>> Distinct<T, TSource>(
+            this Task<T> source)
+			where T: IEnumerable<TSource>
+            => (await source).Distinct();
         //
         // Summary:
         //     Returns distinct elements from a sequence by using a specified System.Collections.Generic.IEqualityComparer`1
@@ -948,9 +965,10 @@ namespace Open.Linq.AsyncExtensions
         // Exceptions:
         //   T:System.ArgumentNullException:
         //     source is null.
-        public static async Task<IEnumerable<TSource>> Distinct<TSource>(
-			this Task<IEnumerable<TSource>> source, IEqualityComparer<TSource> comparer)
-			=> (await source).Distinct(comparer);
+        public static async Task<IEnumerable<TSource>> Distinct<T, TSource>(
+            this Task<T> source, IEqualityComparer<TSource> comparer)
+			where T: IEnumerable<TSource>
+            => (await source).Distinct(comparer);
         //
         // Summary:
         //     Returns the element at a specified index in a sequence.
@@ -975,9 +993,10 @@ namespace Open.Linq.AsyncExtensions
         //
         //   T:System.ArgumentOutOfRangeException:
         //     index is less than 0 or greater than or equal to the number of elements in source.
-        public static async Task<TSource> ElementAt<TSource>(
-			this Task<IEnumerable<TSource>> source, int index)
-			=> (await source).ElementAt(index);
+        public static async Task<TSource> ElementAt<T, TSource>(
+            this Task<T> source, int index)
+			where T: IEnumerable<TSource>
+            => (await source).ElementAt(index);
         //
         // Summary:
         //     Returns the element at a specified index in a sequence or a default value if
@@ -1001,9 +1020,10 @@ namespace Open.Linq.AsyncExtensions
         // Exceptions:
         //   T:System.ArgumentNullException:
         //     source is null.
-        public static async Task<TSource> ElementAtOrDefault<TSource>(
-			this Task<IEnumerable<TSource>> source, int index)
-			=> (await source).ElementAtOrDefault(index);
+        public static async Task<TSource> ElementAtOrDefault<T, TSource>(
+            this Task<T> source, int index)
+			where T: IEnumerable<TSource>
+            => (await source).ElementAtOrDefault(index);
 
         //
         // Summary:
@@ -1030,9 +1050,10 @@ namespace Open.Linq.AsyncExtensions
         // Exceptions:
         //   T:System.ArgumentNullException:
         //     first or second is null.
-        public static async Task<IEnumerable<TSource>> Except<TSource>(
-			this Task<IEnumerable<TSource>> first, IEnumerable<TSource> second)
-			=> (await first).Except(second);
+        public static async Task<IEnumerable<TSource>> Except<T, TSource>(
+            this Task<T> first, IEnumerable<TSource> second)
+			where T: IEnumerable<TSource>
+            => (await first).Except(second);
         //
         // Summary:
         //     Produces the set difference of two sequences by using the specified System.Collections.Generic.IEqualityComparer`1
@@ -1061,11 +1082,11 @@ namespace Open.Linq.AsyncExtensions
         // Exceptions:
         //   T:System.ArgumentNullException:
         //     first or second is null.
-        public static async Task<IEnumerable<TSource>> Except<TSource>(
-			this Task<IEnumerable<TSource>> first,
+        public static async Task<IEnumerable<TSource>> Except<T, TSource>(
+            this Task<IEnumerable<TSource>> first,
             IEnumerable<TSource> second,
             IEqualityComparer<TSource> comparer)
-			=> (await first).Except(second, comparer);
+            => (await first).Except(second, comparer);
         //
         // Summary:
         //     Returns the first element of a sequence.
@@ -1087,9 +1108,10 @@ namespace Open.Linq.AsyncExtensions
         //
         //   T:System.InvalidOperationException:
         //     The source sequence is empty.
-        public static async Task<TSource> First<TSource>(
-			this Task<IEnumerable<TSource>> source)
-			=> (await source).First();
+        public static async Task<TSource> First<T, TSource>(
+            this Task<T> source)
+			where T: IEnumerable<TSource>
+            => (await source).First();
         //
         // Summary:
         //     Returns the first element in a sequence that satisfies a specified condition.
@@ -1116,9 +1138,10 @@ namespace Open.Linq.AsyncExtensions
         //   T:System.InvalidOperationException:
         //     No element satisfies the condition in predicate. -or- The source sequence is
         //     empty.
-        public static async Task<TSource> First<TSource>(
-			this Task<IEnumerable<TSource>> source, Func<TSource, bool> predicate)
-			=> (await source).First(predicate);
+        public static async Task<TSource> First<T, TSource>(
+            this Task<T> source, Func<TSource, bool> predicate)
+			where T: IEnumerable<TSource>
+            => (await source).First(predicate);
         //
         // Summary:
         //     Returns the first element of a sequence, or a default value if the sequence contains
@@ -1138,9 +1161,10 @@ namespace Open.Linq.AsyncExtensions
         // Exceptions:
         //   T:System.ArgumentNullException:
         //     source is null.
-        public static async Task<TSource> FirstOrDefault<TSource>(
-			this Task<IEnumerable<TSource>> source)
-			=> (await source).FirstOrDefault();
+        public static async Task<TSource> FirstOrDefault<T, TSource>(
+            this Task<T> source)
+			where T: IEnumerable<TSource>
+            => (await source).FirstOrDefault();
         //
         // Summary:
         //     Returns the first element of the sequence that satisfies a condition or a default
@@ -1165,9 +1189,10 @@ namespace Open.Linq.AsyncExtensions
         // Exceptions:
         //   T:System.ArgumentNullException:
         //     source or predicate is null.
-        public static async Task<TSource> FirstOrDefault<TSource>(
-			this Task<IEnumerable<TSource>> source, Func<TSource, bool> predicate)
-			=> (await source).FirstOrDefault(predicate);
+        public static async Task<TSource> FirstOrDefault<T, TSource>(
+            this Task<T> source, Func<TSource, bool> predicate)
+			where T: IEnumerable<TSource>
+            => (await source).FirstOrDefault(predicate);
         //
         // Summary:
         //     Groups the elements of a sequence according to a specified key selector function
@@ -1207,13 +1232,13 @@ namespace Open.Linq.AsyncExtensions
         // Returns:
         //     A collection of elements of type TResult where each element represents a projection
         //     over a group and its key.
-        public static async Task<IEnumerable<TResult>> GroupBy<TSource, TKey, TElement, TResult>(
-			this Task<IEnumerable<TSource>> source,
+        public static async Task<IEnumerable<TResult>> GroupBy<T, TSource, TKey, TElement, TResult>(
+            this Task<IEnumerable<TSource>> source,
             Func<TSource, TKey> keySelector,
             Func<TSource, TElement> elementSelector,
             Func<TKey, IEnumerable<TElement>, TResult> resultSelector,
             IEqualityComparer<TKey> comparer)
-			=> (await source).GroupBy(keySelector, elementSelector, resultSelector, comparer);
+            => (await source).GroupBy(keySelector, elementSelector, resultSelector, comparer);
         //
         // Summary:
         //     Groups the elements of a sequence according to a specified key selector function
@@ -1249,12 +1274,12 @@ namespace Open.Linq.AsyncExtensions
         // Returns:
         //     A collection of elements of type TResult where each element represents a projection
         //     over a group and its key.
-        public static async Task<IEnumerable<TResult>> GroupBy<TSource, TKey, TElement, TResult>(
-			this Task<IEnumerable<TSource>> source,
+        public static async Task<IEnumerable<TResult>> GroupBy<T, TSource, TKey, TElement, TResult>(
+            this Task<IEnumerable<TSource>> source,
             Func<TSource, TKey> keySelector,
             Func<TSource, TElement> elementSelector,
             Func<TKey, IEnumerable<TElement>, TResult> resultSelector)
-			=> (await source).GroupBy(keySelector, elementSelector, resultSelector);
+            => (await source).GroupBy(keySelector, elementSelector, resultSelector);
         //
         // Summary:
         //     Groups the elements of a sequence according to a specified key selector function
@@ -1287,12 +1312,12 @@ namespace Open.Linq.AsyncExtensions
         // Returns:
         //     A collection of elements of type TResult where each element represents a projection
         //     over a group and its key.
-        public static async Task<IEnumerable<TResult>> GroupBy<TSource, TKey, TResult>(
-			this Task<IEnumerable<TSource>> source,
+        public static async Task<IEnumerable<TResult>> GroupBy<T, TSource, TKey, TResult>(
+            this Task<IEnumerable<TSource>> source,
             Func<TSource, TKey> keySelector,
             Func<TKey, IEnumerable<TSource>, TResult> resultSelector,
             IEqualityComparer<TKey> comparer)
-			=> (await source).GroupBy(keySelector, resultSelector, comparer);
+            => (await source).GroupBy(keySelector, resultSelector, comparer);
         //
         // Summary:
         //     Groups the elements of a sequence according to a specified key selector function
@@ -1321,11 +1346,11 @@ namespace Open.Linq.AsyncExtensions
         // Returns:
         //     A collection of elements of type TResult where each element represents a projection
         //     over a group and its key.
-        public static async Task<IEnumerable<TResult>> GroupBy<TSource, TKey, TResult>(
-			this Task<IEnumerable<TSource>> source,
+        public static async Task<IEnumerable<TResult>> GroupBy<T, TSource, TKey, TResult>(
+            this Task<IEnumerable<TSource>> source,
             Func<TSource, TKey> keySelector,
             Func<TKey, IEnumerable<TSource>, TResult> resultSelector)
-			=> (await source).GroupBy(keySelector, resultSelector);
+            => (await source).GroupBy(keySelector, resultSelector);
         //
         // Summary:
         //     Groups the elements of a sequence according to a specified key selector function
@@ -1356,10 +1381,10 @@ namespace Open.Linq.AsyncExtensions
         //   T:System.ArgumentNullException:
         //     source or keySelector is null.
         public static async Task<IEnumerable<IGrouping<TKey, TSource>>> GroupBy<TSource, TKey>(
-			this Task<IEnumerable<TSource>> source,
+            this Task<IEnumerable<TSource>> source,
             Func<TSource, TKey> keySelector,
             IEqualityComparer<TKey> comparer)
-			=> (await source).GroupBy(keySelector, comparer);
+            => (await source).GroupBy(keySelector, comparer);
         //
         // Summary:
         //     Groups the elements of a sequence according to a specified key selector function
@@ -1394,10 +1419,10 @@ namespace Open.Linq.AsyncExtensions
         //   T:System.ArgumentNullException:
         //     source or keySelector or elementSelector is null.
         public static async Task<IEnumerable<IGrouping<TKey, TElement>>> GroupBy<TSource, TKey, TElement>(
-			this Task<IEnumerable<TSource>> source,
+            this Task<IEnumerable<TSource>> source,
             Func<TSource, TKey> keySelector,
             Func<TSource, TElement> elementSelector)
-			=> (await source).GroupBy(keySelector, elementSelector);
+            => (await source).GroupBy(keySelector, elementSelector);
         //
         // Summary:
         //     Groups the elements of a sequence according to a specified key selector function.
@@ -1424,9 +1449,9 @@ namespace Open.Linq.AsyncExtensions
         //   T:System.ArgumentNullException:
         //     source or keySelector is null.
         public static async Task<IEnumerable<IGrouping<TKey, TSource>>> GroupBy<TSource, TKey>(
-			this Task<IEnumerable<TSource>> source,
+            this Task<IEnumerable<TSource>> source,
             Func<TSource, TKey> keySelector)
-			=> (await source).GroupBy(keySelector);
+            => (await source).GroupBy(keySelector);
         //
         // Summary:
         //     Groups the elements of a sequence according to a key selector function. The keys
@@ -1465,11 +1490,11 @@ namespace Open.Linq.AsyncExtensions
         //   T:System.ArgumentNullException:
         //     source or keySelector or elementSelector is null.
         public static async Task<IEnumerable<IGrouping<TKey, TElement>>> GroupBy<TSource, TKey, TElement>(
-			this Task<IEnumerable<TSource>> source,
+            this Task<IEnumerable<TSource>> source,
             Func<TSource, TKey> keySelector,
             Func<TSource, TElement> elementSelector,
             IEqualityComparer<TKey> comparer)
-			=> (await source).GroupBy(keySelector, elementSelector, comparer);
+            => (await source).GroupBy(keySelector, elementSelector, comparer);
         //
         // Summary:
         //     Correlates the elements of two sequences based on key equality and groups the
@@ -1516,9 +1541,10 @@ namespace Open.Linq.AsyncExtensions
         // Exceptions:
         //   T:System.ArgumentNullException:
         //     outer or inner or outerKeySelector or innerKeySelector or resultSelector is null.
-        public static async Task<IEnumerable<TResult>> GroupJoin<TOuter, TInner, TKey, TResult>(
-			this Task<IEnumerable<TOuter>> outer, IEnumerable<TInner> inner, Func<TOuter, TKey> outerKeySelector, Func<TInner, TKey> innerKeySelector, Func<TOuter, IEnumerable<TInner>, TResult> resultSelector, IEqualityComparer<TKey> comparer)
-			=> (await outer).GroupJoin(inner, outerKeySelector, innerKeySelector, resultSelector, comparer);
+        public static async Task<IEnumerable<TResult>> GroupJoin<T, TOuter, TInner, TKey, TResult>(
+            this Task<T> outer, IEnumerable<TInner> inner, Func<TOuter, TKey> outerKeySelector, Func<TInner, TKey> innerKeySelector, Func<TOuter, IEnumerable<TInner>, TResult> resultSelector, IEqualityComparer<TKey> comparer)
+			where T: IEnumerable<TOuter>
+            => (await outer).GroupJoin(inner, outerKeySelector, innerKeySelector, resultSelector, comparer);
         //
         // Summary:
         //     Correlates the elements of two sequences based on equality of keys and groups
@@ -1561,13 +1587,13 @@ namespace Open.Linq.AsyncExtensions
         // Exceptions:
         //   T:System.ArgumentNullException:
         //     outer or inner or outerKeySelector or innerKeySelector or resultSelector is null.
-        public static async Task<IEnumerable<TResult>> GroupJoin<TOuter, TInner, TKey, TResult>(
-			this Task<IEnumerable<TOuter>> outer,
+        public static async Task<IEnumerable<TResult>> GroupJoin<T, TOuter, TInner, TKey, TResult>(
+            this Task<IEnumerable<TOuter>> outer,
             IEnumerable<TInner> inner,
             Func<TOuter, TKey> outerKeySelector,
             Func<TInner, TKey> innerKeySelector,
             Func<TOuter, IEnumerable<TInner>, TResult> resultSelector)
-			=> (await outer).GroupJoin(inner, outerKeySelector, innerKeySelector, resultSelector);
+            => (await outer).GroupJoin(inner, outerKeySelector, innerKeySelector, resultSelector);
         //
         // Summary:
         //     Produces the set intersection of two sequences by using the specified System.Collections.Generic.IEqualityComparer`1
@@ -1595,11 +1621,11 @@ namespace Open.Linq.AsyncExtensions
         // Exceptions:
         //   T:System.ArgumentNullException:
         //     first or second is null.
-        public static async Task<IEnumerable<TSource>> Intersect<TSource>(
-			this Task<IEnumerable<TSource>> first,
+        public static async Task<IEnumerable<TSource>> Intersect<T, TSource>(
+            this Task<IEnumerable<TSource>> first,
             IEnumerable<TSource> second,
             IEqualityComparer<TSource> comparer)
-			=> (await first).Intersect(second, comparer);
+            => (await first).Intersect(second, comparer);
         //
         // Summary:
         //     Produces the set intersection of two sequences by using the default equality
@@ -1624,9 +1650,10 @@ namespace Open.Linq.AsyncExtensions
         // Exceptions:
         //   T:System.ArgumentNullException:
         //     first or second is null.
-        public static async Task<IEnumerable<TSource>> Intersect<TSource>(
-			this Task<IEnumerable<TSource>> first, IEnumerable<TSource> second)
-			=> (await first).Intersect(second);
+        public static async Task<IEnumerable<TSource>> Intersect<T, TSource>(
+            this Task<T> first, IEnumerable<TSource> second)
+			where T: IEnumerable<TSource>
+            => (await first).Intersect(second);
         //
         // Summary:
         //     Correlates the elements of two sequences based on matching keys. The default
@@ -1668,13 +1695,13 @@ namespace Open.Linq.AsyncExtensions
         // Exceptions:
         //   T:System.ArgumentNullException:
         //     outer or inner or outerKeySelector or innerKeySelector or resultSelector is null.
-        public static async Task<IEnumerable<TResult>> Join<TOuter, TInner, TKey, TResult>(
-			this Task<IEnumerable<TOuter>> outer,
+        public static async Task<IEnumerable<TResult>> Join<T, TOuter, TInner, TKey, TResult>(
+            this Task<IEnumerable<TOuter>> outer,
             IEnumerable<TInner> inner,
             Func<TOuter, TKey> outerKeySelector,
             Func<TInner, TKey> innerKeySelector,
             Func<TOuter, TInner, TResult> resultSelector)
-			=> (await outer).Join(inner, outerKeySelector, innerKeySelector, resultSelector);
+            => (await outer).Join(inner, outerKeySelector, innerKeySelector, resultSelector);
         //
         // Summary:
         //     Correlates the elements of two sequences based on matching keys. A specified
@@ -1719,14 +1746,14 @@ namespace Open.Linq.AsyncExtensions
         // Exceptions:
         //   T:System.ArgumentNullException:
         //     outer or inner or outerKeySelector or innerKeySelector or resultSelector is null.
-        public static async Task<IEnumerable<TResult>> Join<TOuter, TInner, TKey, TResult>(
-			this Task<IEnumerable<TOuter>> outer,
+        public static async Task<IEnumerable<TResult>> Join<T, TOuter, TInner, TKey, TResult>(
+            this Task<IEnumerable<TOuter>> outer,
             IEnumerable<TInner> inner,
             Func<TOuter, TKey> outerKeySelector,
             Func<TInner, TKey> innerKeySelector,
             Func<TOuter, TInner, TResult> resultSelector,
             IEqualityComparer<TKey> comparer)
-			=> (await outer).Join(inner, outerKeySelector, innerKeySelector, resultSelector, comparer);
+            => (await outer).Join(inner, outerKeySelector, innerKeySelector, resultSelector, comparer);
         //
         // Summary:
         //     Returns the last element of a sequence.
@@ -1748,9 +1775,10 @@ namespace Open.Linq.AsyncExtensions
         //
         //   T:System.InvalidOperationException:
         //     The source sequence is empty.
-        public static async Task<TSource> Last<TSource>(
-			this Task<IEnumerable<TSource>> source)
-			=> (await source).Last();
+        public static async Task<TSource> Last<T, TSource>(
+            this Task<T> source)
+			where T: IEnumerable<TSource>
+            => (await source).Last();
         //
         // Summary:
         //     Returns the last element of a sequence that satisfies a specified condition.
@@ -1777,9 +1805,10 @@ namespace Open.Linq.AsyncExtensions
         //   T:System.InvalidOperationException:
         //     No element satisfies the condition in predicate. -or- The source sequence is
         //     empty.
-        public static async Task<TSource> Last<TSource>(
-			this Task<IEnumerable<TSource>> source, Func<TSource, bool> predicate)
-			=> (await source).Last(predicate);
+        public static async Task<TSource> Last<T, TSource>(
+            this Task<T> source, Func<TSource, bool> predicate)
+			where T: IEnumerable<TSource>
+            => (await source).Last(predicate);
         //
         // Summary:
         //     Returns the last element of a sequence, or a default value if the sequence contains
@@ -1800,9 +1829,10 @@ namespace Open.Linq.AsyncExtensions
         // Exceptions:
         //   T:System.ArgumentNullException:
         //     source is null.
-        public static async Task<TSource> LastOrDefault<TSource>(
-			this Task<IEnumerable<TSource>> source)
-			=> (await source).LastOrDefault();
+        public static async Task<TSource> LastOrDefault<T, TSource>(
+            this Task<T> source)
+			where T: IEnumerable<TSource>
+            => (await source).LastOrDefault();
         //
         // Summary:
         //     Returns the last element of a sequence that satisfies a condition or a default
@@ -1827,9 +1857,10 @@ namespace Open.Linq.AsyncExtensions
         // Exceptions:
         //   T:System.ArgumentNullException:
         //     source or predicate is null.
-        public static async Task<TSource> LastOrDefault<TSource>(
-			this Task<IEnumerable<TSource>> source, Func<TSource, bool> predicate)
-			=> (await source).LastOrDefault(predicate);
+        public static async Task<TSource> LastOrDefault<T, TSource>(
+            this Task<T> source, Func<TSource, bool> predicate)
+			where T: IEnumerable<TSource>
+            => (await source).LastOrDefault(predicate);
         //
         // Summary:
         //     Returns an System.Int64 that represents the total number of elements in a sequence.
@@ -1852,9 +1883,10 @@ namespace Open.Linq.AsyncExtensions
         //
         //   T:System.OverflowException:
         //     The number of elements exceeds System.Int64.MaxValue.
-        public static async Task<long> LongCount<TSource>(
-			this Task<IEnumerable<TSource>> source)
-			=> (await source).LongCount();
+        public static async Task<long> LongCount<T, TSource>(
+            this Task<T> source)
+			where T: IEnumerable<TSource>
+            => (await source).LongCount();
         //
         // Summary:
         //     Returns an System.Int64 that represents how many elements in a sequence satisfy
@@ -1882,9 +1914,10 @@ namespace Open.Linq.AsyncExtensions
         //
         //   T:System.OverflowException:
         //     The number of matching elements exceeds System.Int64.MaxValue.
-        public static async Task<long> LongCount<TSource>(
-			this Task<IEnumerable<TSource>> source, Func<TSource, bool> predicate)
-			=> (await source).LongCount(predicate);
+        public static async Task<long> LongCount<T, TSource>(
+            this Task<T> source, Func<TSource, bool> predicate)
+			where T: IEnumerable<TSource>
+            => (await source).LongCount(predicate);
         //
         // Summary:
         //     Invokes a transform function on each element of a sequence and returns the maximum
@@ -1910,9 +1943,10 @@ namespace Open.Linq.AsyncExtensions
         //
         //   T:System.InvalidOperationException:
         //     source contains no elements.
-        public static async Task<int> Max<TSource>(
-			this Task<IEnumerable<TSource>> source, Func<TSource, int> selector)
-			=> (await source).Max(selector);
+        public static async Task<int> Max<T, TSource>(
+            this Task<T> source, Func<TSource, int> selector)
+			where T: IEnumerable<TSource>
+            => (await source).Max(selector);
         //
         // Summary:
         //     Invokes a transform function on each element of a sequence and returns the maximum
@@ -1938,9 +1972,10 @@ namespace Open.Linq.AsyncExtensions
         //
         //   T:System.InvalidOperationException:
         //     source contains no elements.
-        public static async Task<long> Max<TSource>(
-			this Task<IEnumerable<TSource>> source, Func<TSource, long> selector)
-			=> (await source).Max(selector);
+        public static async Task<long> Max<T, TSource>(
+            this Task<T> source, Func<TSource, long> selector)
+			where T: IEnumerable<TSource>
+            => (await source).Max(selector);
         //
         // Summary:
         //     Invokes a transform function on each element of a sequence and returns the maximum
@@ -1964,9 +1999,10 @@ namespace Open.Linq.AsyncExtensions
         // Exceptions:
         //   T:System.ArgumentNullException:
         //     source or selector is null.
-        public static async Task<decimal?> Max<TSource>(
-			this Task<IEnumerable<TSource>> source, Func<TSource, decimal?> selector)
-			=> (await source).Max(selector);
+        public static async Task<decimal?> Max<T, TSource>(
+            this Task<T> source, Func<TSource, decimal?> selector)
+			where T: IEnumerable<TSource>
+            => (await source).Max(selector);
         //
         // Summary:
         //     Invokes a transform function on each element of a sequence and returns the maximum
@@ -1990,9 +2026,10 @@ namespace Open.Linq.AsyncExtensions
         // Exceptions:
         //   T:System.ArgumentNullException:
         //     source or selector is null.
-        public static async Task<double?> Max<TSource>(
-			this Task<IEnumerable<TSource>> source, Func<TSource, double?> selector)
-			=> (await source).Max(selector);
+        public static async Task<double?> Max<T, TSource>(
+            this Task<T> source, Func<TSource, double?> selector)
+			where T: IEnumerable<TSource>
+            => (await source).Max(selector);
         //
         // Summary:
         //     Invokes a transform function on each element of a sequence and returns the maximum
@@ -2018,9 +2055,10 @@ namespace Open.Linq.AsyncExtensions
         //
         //   T:System.InvalidOperationException:
         //     source contains no elements.
-        public static async Task<float> Max<TSource>(
-			this Task<IEnumerable<TSource>> source, Func<TSource, float> selector)
-			=> (await source).Max(selector);
+        public static async Task<float> Max<T, TSource>(
+            this Task<T> source, Func<TSource, float> selector)
+			where T: IEnumerable<TSource>
+            => (await source).Max(selector);
         //
         // Summary:
         //     Invokes a transform function on each element of a sequence and returns the maximum
@@ -2044,9 +2082,10 @@ namespace Open.Linq.AsyncExtensions
         // Exceptions:
         //   T:System.ArgumentNullException:
         //     source or selector is null.
-        public static async Task<long?> Max<TSource>(
-			this Task<IEnumerable<TSource>> source, Func<TSource, long?> selector)
-			=> (await source).Max(selector);
+        public static async Task<long?> Max<T, TSource>(
+            this Task<T> source, Func<TSource, long?> selector)
+			where T: IEnumerable<TSource>
+            => (await source).Max(selector);
         //
         // Summary:
         //     Invokes a transform function on each element of a sequence and returns the maximum
@@ -2070,9 +2109,10 @@ namespace Open.Linq.AsyncExtensions
         // Exceptions:
         //   T:System.ArgumentNullException:
         //     source or selector is null.
-        public static async Task<float?> Max<TSource>(
-			this Task<IEnumerable<TSource>> source, Func<TSource, float?> selector)
-			=> (await source).Max(selector);
+        public static async Task<float?> Max<T, TSource>(
+            this Task<T> source, Func<TSource, float?> selector)
+			where T: IEnumerable<TSource>
+            => (await source).Max(selector);
         //
         // Summary:
         //     Invokes a transform function on each element of a sequence and returns the maximum
@@ -2098,9 +2138,10 @@ namespace Open.Linq.AsyncExtensions
         //
         //   T:System.InvalidOperationException:
         //     source contains no elements.
-        public static async Task<double> Max<TSource>(
-			this Task<IEnumerable<TSource>> source, Func<TSource, double> selector)
-			=> (await source).Max(selector);
+        public static async Task<double> Max<T, TSource>(
+            this Task<T> source, Func<TSource, double> selector)
+			where T: IEnumerable<TSource>
+            => (await source).Max(selector);
         //
         // Summary:
         //     Invokes a transform function on each element of a sequence and returns the maximum
@@ -2124,9 +2165,10 @@ namespace Open.Linq.AsyncExtensions
         // Exceptions:
         //   T:System.ArgumentNullException:
         //     source or selector is null.
-        public static async Task<int?> Max<TSource>(
-			this Task<IEnumerable<TSource>> source, Func<TSource, int?> selector)
-			=> (await source).Max(selector);
+        public static async Task<int?> Max<T, TSource>(
+            this Task<T> source, Func<TSource, int?> selector)
+			where T: IEnumerable<TSource>
+            => (await source).Max(selector);
         //
         // Summary:
         //     Invokes a transform function on each element of a sequence and returns the maximum
@@ -2152,9 +2194,10 @@ namespace Open.Linq.AsyncExtensions
         //
         //   T:System.InvalidOperationException:
         //     source contains no elements.
-        public static async Task<decimal> Max<TSource>(
-			this Task<IEnumerable<TSource>> source, Func<TSource, decimal> selector)
-			=> (await source).Max(selector);
+        public static async Task<decimal> Max<T, TSource>(
+            this Task<T> source, Func<TSource, decimal> selector)
+			where T: IEnumerable<TSource>
+            => (await source).Max(selector);
         //
         // Summary:
         //     Invokes a transform function on each element of a generic sequence and returns
@@ -2180,9 +2223,10 @@ namespace Open.Linq.AsyncExtensions
         // Exceptions:
         //   T:System.ArgumentNullException:
         //     source or selector is null.
-        public static async Task<TResult> Max<TSource, TResult>(
-			this Task<IEnumerable<TSource>> source, Func<TSource, TResult> selector)
-			=> (await source).Max(selector);
+        public static async Task<TResult> Max<T, TSource, TResult>(
+            this Task<T> source, Func<TSource, TResult> selector)
+			where T: IEnumerable<TSource>
+            => (await source).Max(selector);
         //
         // Summary:
         //     Returns the maximum value in a sequence of System.Single values.
@@ -2301,9 +2345,10 @@ namespace Open.Linq.AsyncExtensions
         // Exceptions:
         //   T:System.ArgumentNullException:
         //     source is null.
-        public static async Task<TSource> Max<TSource>(
-			this Task<IEnumerable<TSource>> source)
-			=> (await source).Max();
+        public static async Task<TSource> Max<T, TSource>(
+            this Task<T> source)
+			where T: IEnumerable<TSource>
+            => (await source).Max();
         //
         // Summary:
         //     Returns the maximum value in a sequence of nullable System.Double values.
@@ -2419,9 +2464,10 @@ namespace Open.Linq.AsyncExtensions
         //
         //   T:System.InvalidOperationException:
         //     source contains no elements.
-        public static async Task<int> Min<TSource>(
-			this Task<IEnumerable<TSource>> source, Func<TSource, int> selector)
-			=> (await source).Min(selector);
+        public static async Task<int> Min<T, TSource>(
+            this Task<T> source, Func<TSource, int> selector)
+			where T: IEnumerable<TSource>
+            => (await source).Min(selector);
         //
         // Summary:
         //     Invokes a transform function on each element of a generic sequence and returns
@@ -2447,9 +2493,10 @@ namespace Open.Linq.AsyncExtensions
         // Exceptions:
         //   T:System.ArgumentNullException:
         //     source or selector is null.
-        public static async Task<TResult> Min<TSource, TResult>(
-			this Task<IEnumerable<TSource>> source, Func<TSource, TResult> selector)
-			=> (await source).Min(selector);
+        public static async Task<TResult> Min<T, TSource, TResult>(
+            this Task<T> source, Func<TSource, TResult> selector)
+			where T: IEnumerable<TSource>
+            => (await source).Min(selector);
         //
         // Summary:
         //     Invokes a transform function on each element of a sequence and returns the minimum
@@ -2475,9 +2522,10 @@ namespace Open.Linq.AsyncExtensions
         //
         //   T:System.InvalidOperationException:
         //     source contains no elements.
-        public static async Task<float> Min<TSource>(
-			this Task<IEnumerable<TSource>> source, Func<TSource, float> selector)
-			=> (await source).Min(selector);
+        public static async Task<float> Min<T, TSource>(
+            this Task<T> source, Func<TSource, float> selector)
+			where T: IEnumerable<TSource>
+            => (await source).Min(selector);
         //
         // Summary:
         //     Invokes a transform function on each element of a sequence and returns the minimum
@@ -2501,9 +2549,10 @@ namespace Open.Linq.AsyncExtensions
         // Exceptions:
         //   T:System.ArgumentNullException:
         //     source or selector is null.
-        public static async Task<float?> Min<TSource>(
-			this Task<IEnumerable<TSource>> source, Func<TSource, float?> selector)
-			=> (await source).Min(selector);
+        public static async Task<float?> Min<T, TSource>(
+            this Task<T> source, Func<TSource, float?> selector)
+			where T: IEnumerable<TSource>
+            => (await source).Min(selector);
         //
         // Summary:
         //     Invokes a transform function on each element of a sequence and returns the minimum
@@ -2527,9 +2576,10 @@ namespace Open.Linq.AsyncExtensions
         // Exceptions:
         //   T:System.ArgumentNullException:
         //     source or selector is null.
-        public static async Task<long?> Min<TSource>(
-			this Task<IEnumerable<TSource>> source, Func<TSource, long?> selector)
-			=> (await source).Min(selector);
+        public static async Task<long?> Min<T, TSource>(
+            this Task<T> source, Func<TSource, long?> selector)
+			where T: IEnumerable<TSource>
+            => (await source).Min(selector);
         //
         // Summary:
         //     Invokes a transform function on each element of a sequence and returns the minimum
@@ -2553,9 +2603,10 @@ namespace Open.Linq.AsyncExtensions
         // Exceptions:
         //   T:System.ArgumentNullException:
         //     source or selector is null.
-        public static async Task<int?> Min<TSource>(
-			this Task<IEnumerable<TSource>> source, Func<TSource, int?> selector)
-			=> (await source).Min(selector);
+        public static async Task<int?> Min<T, TSource>(
+            this Task<T> source, Func<TSource, int?> selector)
+			where T: IEnumerable<TSource>
+            => (await source).Min(selector);
         //
         // Summary:
         //     Invokes a transform function on each element of a sequence and returns the minimum
@@ -2579,9 +2630,10 @@ namespace Open.Linq.AsyncExtensions
         // Exceptions:
         //   T:System.ArgumentNullException:
         //     source or selector is null.
-        public static async Task<double?> Min<TSource>(
-			this Task<IEnumerable<TSource>> source, Func<TSource, double?> selector)
-			=> (await source).Min(selector);
+        public static async Task<double?> Min<T, TSource>(
+            this Task<T> source, Func<TSource, double?> selector)
+			where T: IEnumerable<TSource>
+            => (await source).Min(selector);
         //
         // Summary:
         //     Invokes a transform function on each element of a sequence and returns the minimum
@@ -2605,9 +2657,10 @@ namespace Open.Linq.AsyncExtensions
         // Exceptions:
         //   T:System.ArgumentNullException:
         //     source or selector is null.
-        public static async Task<decimal?> Min<TSource>(
-			this Task<IEnumerable<TSource>> source, Func<TSource, decimal?> selector)
-			=> (await source).Min(selector);
+        public static async Task<decimal?> Min<T, TSource>(
+            this Task<T> source, Func<TSource, decimal?> selector)
+			where T: IEnumerable<TSource>
+            => (await source).Min(selector);
         //
         // Summary:
         //     Invokes a transform function on each element of a sequence and returns the minimum
@@ -2633,9 +2686,10 @@ namespace Open.Linq.AsyncExtensions
         //
         //   T:System.InvalidOperationException:
         //     source contains no elements.
-        public static async Task<long> Min<TSource>(
-			this Task<IEnumerable<TSource>> source, Func<TSource, long> selector)
-			=> (await source).Min(selector);
+        public static async Task<long> Min<T, TSource>(
+            this Task<T> source, Func<TSource, long> selector)
+			where T: IEnumerable<TSource>
+            => (await source).Min(selector);
         //
         // Summary:
         //     Invokes a transform function on each element of a sequence and returns the minimum
@@ -2661,9 +2715,10 @@ namespace Open.Linq.AsyncExtensions
         //
         //   T:System.InvalidOperationException:
         //     source contains no elements.
-        public static async Task<decimal> Min<TSource>(
-			this Task<IEnumerable<TSource>> source, Func<TSource, decimal> selector)
-			=> (await source).Min(selector);
+        public static async Task<decimal> Min<T, TSource>(
+            this Task<T> source, Func<TSource, decimal> selector)
+			where T: IEnumerable<TSource>
+            => (await source).Min(selector);
         //
         // Summary:
         //     Invokes a transform function on each element of a sequence and returns the minimum
@@ -2689,9 +2744,10 @@ namespace Open.Linq.AsyncExtensions
         //
         //   T:System.InvalidOperationException:
         //     source contains no elements.
-        public static async Task<double> Min<TSource>(
-			this Task<IEnumerable<TSource>> source, Func<TSource, double> selector)
-			=> (await source).Min(selector);
+        public static async Task<double> Min<T, TSource>(
+            this Task<T> source, Func<TSource, double> selector)
+			where T: IEnumerable<TSource>
+            => (await source).Min(selector);
         //
         // Summary:
         //     Returns the minimum value in a sequence of System.Single values.
@@ -2900,9 +2956,10 @@ namespace Open.Linq.AsyncExtensions
         // Exceptions:
         //   T:System.ArgumentNullException:
         //     source is null.
-        public static async Task<TSource> Min<TSource>(
-			this Task<IEnumerable<TSource>> source)
-			=> (await source).Min();
+        public static async Task<TSource> Min<T, TSource>(
+            this Task<T> source)
+			where T: IEnumerable<TSource>
+            => (await source).Min();
         //
         // Summary:
         //     Filters the elements of an System.Collections.IEnumerable based on a specified
@@ -2923,9 +2980,10 @@ namespace Open.Linq.AsyncExtensions
         // Exceptions:
         //   T:System.ArgumentNullException:
         //     source is null.
-        public static async Task<IEnumerable<TResult>> OfType<TResult>(
-			this Task<IEnumerable> source)
-			=> (await source).OfType<TResult>();
+        public static async Task<IEnumerable<TResult>> OfType<T, TResult>(
+            this Task<T> source)
+			where T: IEnumerable
+            => (await source).OfType<TResult>();
         //
         // Summary:
         //     Sorts the elements of a sequence in ascending order by using a specified comparer.
@@ -2954,9 +3012,10 @@ namespace Open.Linq.AsyncExtensions
         // Exceptions:
         //   T:System.ArgumentNullException:
         //     source or keySelector is null.
-        public static async Task<IOrderedEnumerable<TSource>> OrderBy<TSource, TKey>(
-			this Task<IEnumerable<TSource>> source, Func<TSource, TKey> keySelector, IComparer<TKey> comparer)
-			=> (await source).OrderBy(keySelector, comparer);
+        public static async Task<IOrderedEnumerable<TSource>> OrderBy<T, TSource, TKey>(
+            this Task<T> source, Func<TSource, TKey> keySelector, IComparer<TKey> comparer)
+			where T: IEnumerable<TSource>
+            => (await source).OrderBy(keySelector, comparer);
         //
         // Summary:
         //     Sorts the elements of a sequence in ascending order according to a key.
@@ -2982,9 +3041,10 @@ namespace Open.Linq.AsyncExtensions
         // Exceptions:
         //   T:System.ArgumentNullException:
         //     source or keySelector is null.
-        public static async Task<IOrderedEnumerable<TSource>> OrderBy<TSource, TKey>(
-			this Task<IEnumerable<TSource>> source, Func<TSource, TKey> keySelector)
-			=> (await source).OrderBy(keySelector);
+        public static async Task<IOrderedEnumerable<TSource>> OrderBy<T, TSource, TKey>(
+            this Task<T> source, Func<TSource, TKey> keySelector)
+			where T: IEnumerable<TSource>
+            => (await source).OrderBy(keySelector);
         //
         // Summary:
         //     Sorts the elements of a sequence in descending order according to a key.
@@ -3010,9 +3070,10 @@ namespace Open.Linq.AsyncExtensions
         // Exceptions:
         //   T:System.ArgumentNullException:
         //     source or keySelector is null.
-        public static async Task<IOrderedEnumerable<TSource>> OrderByDescending<TSource, TKey>(
-			this Task<IEnumerable<TSource>> source, Func<TSource, TKey> keySelector)
-			=> (await source).OrderByDescending(keySelector);
+        public static async Task<IOrderedEnumerable<TSource>> OrderByDescending<T, TSource, TKey>(
+            this Task<T> source, Func<TSource, TKey> keySelector)
+			where T: IEnumerable<TSource>
+            => (await source).OrderByDescending(keySelector);
         //
         // Summary:
         //     Sorts the elements of a sequence in descending order by using a specified comparer.
@@ -3041,9 +3102,10 @@ namespace Open.Linq.AsyncExtensions
         // Exceptions:
         //   T:System.ArgumentNullException:
         //     source or keySelector is null.
-        public static async Task<IOrderedEnumerable<TSource>> OrderByDescending<TSource, TKey>(
-			this Task<IEnumerable<TSource>> source, Func<TSource, TKey> keySelector, IComparer<TKey> comparer)
-			=> (await source).OrderByDescending(keySelector, comparer);
+        public static async Task<IOrderedEnumerable<TSource>> OrderByDescending<T, TSource, TKey>(
+            this Task<T> source, Func<TSource, TKey> keySelector, IComparer<TKey> comparer)
+			where T: IEnumerable<TSource>
+            => (await source).OrderByDescending(keySelector, comparer);
         //
         // Parameters:
         //   source:
@@ -3053,10 +3115,11 @@ namespace Open.Linq.AsyncExtensions
         // Type parameters:
         //   TSource:
         [EditorBrowsable(EditorBrowsableState.Never)]
-        public static async Task<IEnumerable<TSource>> Prepend<TSource>(
-			this Task<IEnumerable<TSource>> source, TSource element)
-			=> (await source).Prepend(element);
-      
+        public static async Task<IEnumerable<TSource>> Prepend<T, TSource>(
+            this Task<T> source, TSource element)
+			where T: IEnumerable<TSource>
+            => (await source).Prepend(element);
+
         //
         // Summary:
         //     Inverts the order of the elements in a sequence.
@@ -3076,9 +3139,10 @@ namespace Open.Linq.AsyncExtensions
         // Exceptions:
         //   T:System.ArgumentNullException:
         //     source is null.
-        public static async Task<IEnumerable<TSource>> Reverse<TSource>(
-			this Task<IEnumerable<TSource>> source)
-			=> (await source).Reverse();
+        public static async Task<IEnumerable<TSource>> Reverse<T, TSource>(
+            this Task<T> source)
+			where T: IEnumerable<TSource>
+            => (await source).Reverse();
         //
         // Summary:
         //     Projects each element of a sequence into a new form.
@@ -3104,9 +3168,10 @@ namespace Open.Linq.AsyncExtensions
         // Exceptions:
         //   T:System.ArgumentNullException:
         //     source or selector is null.
-        public static async Task<IEnumerable<TResult>> Select<TSource, TResult>(
-			this Task<IEnumerable<TSource>> source, Func<TSource, TResult> selector)
-			=> (await source).Select(selector);
+        public static async Task<IEnumerable<TResult>> Select<T, TSource, TResult>(
+            this Task<T> source, Func<TSource, TResult> selector)
+			where T: IEnumerable<TSource>
+            => (await source).Select(selector);
         //
         // Summary:
         //     Projects each element of a sequence into a new form by incorporating the element's
@@ -3134,9 +3199,10 @@ namespace Open.Linq.AsyncExtensions
         // Exceptions:
         //   T:System.ArgumentNullException:
         //     source or selector is null.
-        public static async Task<IEnumerable<TResult>> Select<TSource, TResult>(
-			this Task<IEnumerable<TSource>> source, Func<TSource, int, TResult> selector)
-			=> (await source).Select(selector);
+        public static async Task<IEnumerable<TResult>> Select<T, TSource, TResult>(
+            this Task<T> source, Func<TSource, int, TResult> selector)
+			where T: IEnumerable<TSource>
+            => (await source).Select(selector);
         //
         // Summary:
         //     Projects each element of a sequence to an System.Collections.Generic.IEnumerable`1
@@ -3163,9 +3229,10 @@ namespace Open.Linq.AsyncExtensions
         // Exceptions:
         //   T:System.ArgumentNullException:
         //     source or selector is null.
-        public static async Task<IEnumerable<TResult>> SelectMany<TSource, TResult>(
-			this Task<IEnumerable<TSource>> source, Func<TSource, IEnumerable<TResult>> selector)
-			=> (await source).SelectMany(selector);
+        public static async Task<IEnumerable<TResult>> SelectMany<T, TSource, TResult>(
+            this Task<T> source, Func<TSource, IEnumerable<TResult>> selector)
+			where T: IEnumerable<TSource>
+            => (await source).SelectMany(selector);
         //
         // Summary:
         //     Projects each element of a sequence to an System.Collections.Generic.IEnumerable`1,
@@ -3194,9 +3261,10 @@ namespace Open.Linq.AsyncExtensions
         // Exceptions:
         //   T:System.ArgumentNullException:
         //     source or selector is null.
-        public static async Task<IEnumerable<TResult>> SelectMany<TSource, TResult>(
-			this Task<IEnumerable<TSource>> source, Func<TSource, int, IEnumerable<TResult>> selector)
-			=> (await source).SelectMany(selector);
+        public static async Task<IEnumerable<TResult>> SelectMany<T, TSource, TResult>(
+            this Task<T> source, Func<TSource, int, IEnumerable<TResult>> selector)
+			where T: IEnumerable<TSource>
+            => (await source).SelectMany(selector);
         //
         // Summary:
         //     Projects each element of a sequence to an System.Collections.Generic.IEnumerable`1,
@@ -3232,11 +3300,11 @@ namespace Open.Linq.AsyncExtensions
         // Exceptions:
         //   T:System.ArgumentNullException:
         //     source or collectionSelector or resultSelector is null.
-        public static async Task<IEnumerable<TResult>> SelectMany<TSource, TCollection, TResult>(
-			this Task<IEnumerable<TSource>> source,
+        public static async Task<IEnumerable<TResult>> SelectMany<T, TSource, TCollection, TResult>(
+            this Task<IEnumerable<TSource>> source,
             Func<TSource, IEnumerable<TCollection>> collectionSelector,
             Func<TSource, TCollection, TResult> resultSelector)
-			=> (await source).SelectMany(collectionSelector, resultSelector);
+            => (await source).SelectMany(collectionSelector, resultSelector);
         //
         // Summary:
         //     Projects each element of a sequence to an System.Collections.Generic.IEnumerable`1,
@@ -3274,11 +3342,11 @@ namespace Open.Linq.AsyncExtensions
         // Exceptions:
         //   T:System.ArgumentNullException:
         //     source or collectionSelector or resultSelector is null.
-        public static async Task<IEnumerable<TResult>> SelectMany<TSource, TCollection, TResult>(
-			this Task<IEnumerable<TSource>> source,
+        public static async Task<IEnumerable<TResult>> SelectMany<T, TSource, TCollection, TResult>(
+            this Task<IEnumerable<TSource>> source,
             Func<TSource, int, IEnumerable<TCollection>> collectionSelector,
             Func<TSource, TCollection, TResult> resultSelector)
-			=> (await source).SelectMany(collectionSelector, resultSelector);
+            => (await source).SelectMany(collectionSelector, resultSelector);
 
         //
         // Summary:
@@ -3306,11 +3374,11 @@ namespace Open.Linq.AsyncExtensions
         // Exceptions:
         //   T:System.ArgumentNullException:
         //     first or second is null.
-        public static async Task<bool> SequenceEqual<TSource>(
-			this Task<IEnumerable<TSource>> first,
+        public static async Task<bool> SequenceEqual<T, TSource>(
+            this Task<IEnumerable<TSource>> first,
             IEnumerable<TSource> second,
             IEqualityComparer<TSource> comparer)
-			=> (await first).SequenceEqual(second, comparer);
+            => (await first).SequenceEqual(second, comparer);
         //
         // Summary:
         //     Determines whether two sequences are equal by comparing the elements by using
@@ -3335,10 +3403,10 @@ namespace Open.Linq.AsyncExtensions
         // Exceptions:
         //   T:System.ArgumentNullException:
         //     first or second is null.
-        public static async Task<bool> SequenceEqual<TSource>(
-			this Task<IEnumerable<TSource>> first,
+        public static async Task<bool> SequenceEqual<T, TSource>(
+            this Task<IEnumerable<TSource>> first,
             IEnumerable<TSource> second)
-			=> (await first).SequenceEqual(second);
+            => (await first).SequenceEqual(second);
         //
         // Summary:
         //     Returns the only element of a sequence, and throws an exception if there is not
@@ -3362,9 +3430,10 @@ namespace Open.Linq.AsyncExtensions
         //   T:System.InvalidOperationException:
         //     The input sequence contains more than one element. -or- The input sequence is
         //     empty.
-        public static async Task<TSource> Single<TSource>(
-			this Task<IEnumerable<TSource>> source)
-			=> (await source).Single();
+        public static async Task<TSource> Single<T, TSource>(
+            this Task<T> source)
+			where T: IEnumerable<TSource>
+            => (await source).Single();
         //
         // Summary:
         //     Returns the only element of a sequence that satisfies a specified condition,
@@ -3391,10 +3460,10 @@ namespace Open.Linq.AsyncExtensions
         //   T:System.InvalidOperationException:
         //     No element satisfies the condition in predicate. -or- More than one element satisfies
         //     the condition in predicate. -or- The source sequence is empty.
-        public static async Task<TSource> Single<TSource>(
-			this Task<IEnumerable<TSource>> source,
+        public static async Task<TSource> Single<T, TSource>(
+            this Task<IEnumerable<TSource>> source,
             Func<TSource, bool> predicate)
-			=> (await source).Single(predicate);
+            => (await source).Single(predicate);
         //
         // Summary:
         //     Returns the only element of a sequence, or a default value if the sequence is
@@ -3419,9 +3488,10 @@ namespace Open.Linq.AsyncExtensions
         //
         //   T:System.InvalidOperationException:
         //     The input sequence contains more than one element.
-        public static async Task<TSource> SingleOrDefault<TSource>(
-			this Task<IEnumerable<TSource>> source)
-			=> (await source).SingleOrDefault();
+        public static async Task<TSource> SingleOrDefault<T, TSource>(
+            this Task<T> source)
+			where T: IEnumerable<TSource>
+            => (await source).SingleOrDefault();
         //
         // Summary:
         //     Returns the only element of a sequence that satisfies a specified condition or
@@ -3446,10 +3516,10 @@ namespace Open.Linq.AsyncExtensions
         // Exceptions:
         //   T:System.ArgumentNullException:
         //     source or predicate is null.
-        public static async Task<TSource> SingleOrDefault<TSource>(
-			this Task<IEnumerable<TSource>> source,
+        public static async Task<TSource> SingleOrDefault<T, TSource>(
+            this Task<IEnumerable<TSource>> source,
             Func<TSource, bool> predicate)
-			=> (await source).SingleOrDefault(predicate);
+            => (await source).SingleOrDefault(predicate);
         //
         // Summary:
         //     Bypasses a specified number of elements in a sequence and then returns the remaining
@@ -3473,9 +3543,10 @@ namespace Open.Linq.AsyncExtensions
         // Exceptions:
         //   T:System.ArgumentNullException:
         //     source is null.
-        public static async Task<IEnumerable<TSource>> Skip<TSource>(
-			this Task<IEnumerable<TSource>> source, int count)
-			=> (await source).Skip(count);
+        public static async Task<IEnumerable<TSource>> Skip<T, TSource>(
+            this Task<T> source, int count)
+			where T: IEnumerable<TSource>
+            => (await source).Skip(count);
         //
         // Summary:
         //     Bypasses elements in a sequence as long as a specified condition is true and
@@ -3500,9 +3571,10 @@ namespace Open.Linq.AsyncExtensions
         // Exceptions:
         //   T:System.ArgumentNullException:
         //     source or predicate is null.
-        public static async Task<IEnumerable<TSource>> SkipWhile<TSource>(
-			this Task<IEnumerable<TSource>> source, Func<TSource, bool> predicate)
-			=> (await source).SkipWhile(predicate);
+        public static async Task<IEnumerable<TSource>> SkipWhile<T, TSource>(
+            this Task<T> source, Func<TSource, bool> predicate)
+			where T: IEnumerable<TSource>
+            => (await source).SkipWhile(predicate);
         //
         // Summary:
         //     Bypasses elements in a sequence as long as a specified condition is true and
@@ -3529,9 +3601,10 @@ namespace Open.Linq.AsyncExtensions
         // Exceptions:
         //   T:System.ArgumentNullException:
         //     source or predicate is null.
-        public static async Task<IEnumerable<TSource>> SkipWhile<TSource>(
-			this Task<IEnumerable<TSource>> source, Func<TSource, int, bool> predicate)
-			=> (await source).SkipWhile(predicate);
+        public static async Task<IEnumerable<TSource>> SkipWhile<T, TSource>(
+            this Task<T> source, Func<TSource, int, bool> predicate)
+			where T: IEnumerable<TSource>
+            => (await source).SkipWhile(predicate);
         //
         // Summary:
         //     Computes the sum of the sequence of nullable System.Int32 values that are obtained
@@ -3557,9 +3630,10 @@ namespace Open.Linq.AsyncExtensions
         //
         //   T:System.OverflowException:
         //     The sum is larger than System.Int32.MaxValue.
-        public static async Task<int?> Sum<TSource>(
-			this Task<IEnumerable<TSource>> source, Func<TSource, int?> selector)
-			=> (await source).Sum(selector);
+        public static async Task<int?> Sum<T, TSource>(
+            this Task<T> source, Func<TSource, int?> selector)
+			where T: IEnumerable<TSource>
+            => (await source).Sum(selector);
         //
         // Summary:
         //     Computes the sum of the sequence of System.Int32 values that are obtained by
@@ -3585,9 +3659,10 @@ namespace Open.Linq.AsyncExtensions
         //
         //   T:System.OverflowException:
         //     The sum is larger than System.Int32.MaxValue.
-        public static async Task<int> Sum<TSource>(
-			this Task<IEnumerable<TSource>> source, Func<TSource, int> selector)
-			=> (await source).Sum(selector);
+        public static async Task<int> Sum<T, TSource>(
+            this Task<T> source, Func<TSource, int> selector)
+			where T: IEnumerable<TSource>
+            => (await source).Sum(selector);
         //
         // Summary:
         //     Computes the sum of the sequence of System.Int64 values that are obtained by
@@ -3613,9 +3688,10 @@ namespace Open.Linq.AsyncExtensions
         //
         //   T:System.OverflowException:
         //     The sum is larger than System.Int64.MaxValue.
-        public static async Task<long> Sum<TSource>(
-			this Task<IEnumerable<TSource>> source, Func<TSource, long> selector)
-			=> (await source).Sum(selector);
+        public static async Task<long> Sum<T, TSource>(
+            this Task<T> source, Func<TSource, long> selector)
+			where T: IEnumerable<TSource>
+            => (await source).Sum(selector);
         //
         // Summary:
         //     Computes the sum of the sequence of nullable System.Decimal values that are obtained
@@ -3641,9 +3717,10 @@ namespace Open.Linq.AsyncExtensions
         //
         //   T:System.OverflowException:
         //     The sum is larger than System.Decimal.MaxValue.
-        public static async Task<decimal?> Sum<TSource>(
-			this Task<IEnumerable<TSource>> source, Func<TSource, decimal?> selector)
-			=> (await source).Sum(selector);
+        public static async Task<decimal?> Sum<T, TSource>(
+            this Task<T> source, Func<TSource, decimal?> selector)
+			where T: IEnumerable<TSource>
+            => (await source).Sum(selector);
         //
         // Summary:
         //     Computes the sum of the sequence of System.Single values that are obtained by
@@ -3666,9 +3743,10 @@ namespace Open.Linq.AsyncExtensions
         // Exceptions:
         //   T:System.ArgumentNullException:
         //     source or selector is null.
-        public static async Task<float> Sum<TSource>(
-			this Task<IEnumerable<TSource>> source, Func<TSource, float> selector)
-			=> (await source).Sum(selector);
+        public static async Task<float> Sum<T, TSource>(
+            this Task<T> source, Func<TSource, float> selector)
+			where T: IEnumerable<TSource>
+            => (await source).Sum(selector);
         //
         // Summary:
         //     Computes the sum of the sequence of nullable System.Single values that are obtained
@@ -3691,9 +3769,10 @@ namespace Open.Linq.AsyncExtensions
         // Exceptions:
         //   T:System.ArgumentNullException:
         //     source or selector is null.
-        public static async Task<float?> Sum<TSource>(
-			this Task<IEnumerable<TSource>> source, Func<TSource, float?> selector)
-			=> (await source).Sum(selector);
+        public static async Task<float?> Sum<T, TSource>(
+            this Task<T> source, Func<TSource, float?> selector)
+			where T: IEnumerable<TSource>
+            => (await source).Sum(selector);
         //
         // Summary:
         //     Computes the sum of the sequence of System.Double values that are obtained by
@@ -3716,9 +3795,10 @@ namespace Open.Linq.AsyncExtensions
         // Exceptions:
         //   T:System.ArgumentNullException:
         //     source or selector is null.
-        public static async Task<double> Sum<TSource>(
-			this Task<IEnumerable<TSource>> source, Func<TSource, double> selector)
-			=> (await source).Sum(selector);
+        public static async Task<double> Sum<T, TSource>(
+            this Task<T> source, Func<TSource, double> selector)
+			where T: IEnumerable<TSource>
+            => (await source).Sum(selector);
         //
         // Summary:
         //     Computes the sum of the sequence of nullable System.Int64 values that are obtained
@@ -3744,9 +3824,10 @@ namespace Open.Linq.AsyncExtensions
         //
         //   T:System.OverflowException:
         //     The sum is larger than System.Int64.MaxValue.
-        public static async Task<long?> Sum<TSource>(
-			this Task<IEnumerable<TSource>> source, Func<TSource, long?> selector)
-			=> (await source).Sum(selector);
+        public static async Task<long?> Sum<T, TSource>(
+            this Task<T> source, Func<TSource, long?> selector)
+			where T: IEnumerable<TSource>
+            => (await source).Sum(selector);
         //
         // Summary:
         //     Computes the sum of the sequence of System.Decimal values that are obtained by
@@ -3772,9 +3853,10 @@ namespace Open.Linq.AsyncExtensions
         //
         //   T:System.OverflowException:
         //     The sum is larger than System.Decimal.MaxValue.
-        public static async Task<decimal> Sum<TSource>(
-			this Task<IEnumerable<TSource>> source, Func<TSource, decimal> selector)
-			=> (await source).Sum(selector);
+        public static async Task<decimal> Sum<T, TSource>(
+            this Task<T> source, Func<TSource, decimal> selector)
+			where T: IEnumerable<TSource>
+            => (await source).Sum(selector);
         //
         // Summary:
         //     Computes the sum of the sequence of nullable System.Double values that are obtained
@@ -3797,9 +3879,10 @@ namespace Open.Linq.AsyncExtensions
         // Exceptions:
         //   T:System.ArgumentNullException:
         //     source or selector is null.
-        public static async Task<double?> Sum<TSource>(
-			this Task<IEnumerable<TSource>> source, Func<TSource, double?> selector)
-			=> (await source).Sum(selector);
+        public static async Task<double?> Sum<T, TSource>(
+            this Task<T> source, Func<TSource, double?> selector)
+			where T: IEnumerable<TSource>
+            => (await source).Sum(selector);
         //
         // Summary:
         //     Computes the sum of a sequence of nullable System.Single values.
@@ -4010,9 +4093,10 @@ namespace Open.Linq.AsyncExtensions
         // Exceptions:
         //   T:System.ArgumentNullException:
         //     source is null.
-        public static async Task<IEnumerable<TSource>> Take<TSource>(
-			this Task<IEnumerable<TSource>> source, int count)
-			=> (await source).Take(count);
+        public static async Task<IEnumerable<TSource>> Take<T, TSource>(
+            this Task<T> source, int count)
+			where T: IEnumerable<TSource>
+            => (await source).Take(count);
         //
         // Summary:
         //     Returns elements from a sequence as long as a specified condition is true.
@@ -4035,10 +4119,10 @@ namespace Open.Linq.AsyncExtensions
         // Exceptions:
         //   T:System.ArgumentNullException:
         //     source or predicate is null.
-        public static async Task<IEnumerable<TSource>> TakeWhile<TSource>(
-			this Task<IEnumerable<TSource>> source,
+        public static async Task<IEnumerable<TSource>> TakeWhile<T, TSource>(
+            this Task<IEnumerable<TSource>> source,
             Func<TSource, bool> predicate)
-			=> (await source).TakeWhile(predicate);
+            => (await source).TakeWhile(predicate);
         //
         // Summary:
         //     Returns elements from a sequence as long as a specified condition is true. The
@@ -4063,10 +4147,10 @@ namespace Open.Linq.AsyncExtensions
         // Exceptions:
         //   T:System.ArgumentNullException:
         //     source or predicate is null.
-        public static async Task<IEnumerable<TSource>> TakeWhile<TSource>(
-			this Task<IEnumerable<TSource>> source,
+        public static async Task<IEnumerable<TSource>> TakeWhile<T, TSource>(
+            this Task<IEnumerable<TSource>> source,
             Func<TSource, int, bool> predicate)
-			=> (await source).TakeWhile(predicate);
+            => (await source).TakeWhile(predicate);
         //
         // Summary:
         //     Performs a subsequent ordering of the elements in a sequence in ascending order
@@ -4096,11 +4180,11 @@ namespace Open.Linq.AsyncExtensions
         // Exceptions:
         //   T:System.ArgumentNullException:
         //     source or keySelector is null.
-        public static async Task<IOrderedEnumerable<TSource>> ThenBy<TSource, TKey>(
-			this Task<IOrderedEnumerable<TSource>> source,
+        public static async Task<IOrderedEnumerable<TSource>> ThenBy<T, TSource, TKey>(
+            this Task<IOrderedEnumerable<TSource>> source,
             Func<TSource, TKey> keySelector,
             IComparer<TKey> comparer)
-			=> (await source).ThenBy(keySelector, comparer);
+            => (await source).ThenBy(keySelector, comparer);
         //
         // Summary:
         //     Performs a subsequent ordering of the elements in a sequence in ascending order
@@ -4127,10 +4211,10 @@ namespace Open.Linq.AsyncExtensions
         // Exceptions:
         //   T:System.ArgumentNullException:
         //     source or keySelector is null.
-        public static async Task<IOrderedEnumerable<TSource>> ThenBy<TSource, TKey>(
-			this Task<IOrderedEnumerable<TSource>> source,
+        public static async Task<IOrderedEnumerable<TSource>> ThenBy<T, TSource, TKey>(
+            this Task<IOrderedEnumerable<TSource>> source,
             Func<TSource, TKey> keySelector)
-			=> (await source).ThenBy(keySelector);
+            => (await source).ThenBy(keySelector);
         //
         // Summary:
         //     Performs a subsequent ordering of the elements in a sequence in descending order,
@@ -4157,10 +4241,10 @@ namespace Open.Linq.AsyncExtensions
         // Exceptions:
         //   T:System.ArgumentNullException:
         //     source or keySelector is null.
-        public static async Task<IOrderedEnumerable<TSource>> ThenByDescending<TSource, TKey>(
-			this Task<IOrderedEnumerable<TSource>> source,
+        public static async Task<IOrderedEnumerable<TSource>> ThenByDescending<T, TSource, TKey>(
+            this Task<IOrderedEnumerable<TSource>> source,
             Func<TSource, TKey> keySelector)
-			=> (await source).ThenByDescending(keySelector);
+            => (await source).ThenByDescending(keySelector);
         //
         // Summary:
         //     Performs a subsequent ordering of the elements in a sequence in descending order
@@ -4190,11 +4274,11 @@ namespace Open.Linq.AsyncExtensions
         // Exceptions:
         //   T:System.ArgumentNullException:
         //     source or keySelector is null.
-        public static async Task<IOrderedEnumerable<TSource>> ThenByDescending<TSource, TKey>(
-			this Task<IOrderedEnumerable<TSource>> source,
+        public static async Task<IOrderedEnumerable<TSource>> ThenByDescending<T, TSource, TKey>(
+            this Task<IOrderedEnumerable<TSource>> source,
             Func<TSource, TKey> keySelector,
             IComparer<TKey> comparer)
-			=> (await source).ThenByDescending(keySelector, comparer);
+            => (await source).ThenByDescending(keySelector, comparer);
         //
         // Summary:
         //     Creates an array from a System.Collections.Generic.IEnumerable`1.
@@ -4213,9 +4297,10 @@ namespace Open.Linq.AsyncExtensions
         // Exceptions:
         //   T:System.ArgumentNullException:
         //     source is null.
-        public static async Task<TSource[]> ToArray<TSource>(
-			this Task<IEnumerable<TSource>> source)
-			=> (await source).ToArray();
+        public static async Task<TSource[]> ToArray<T, TSource>(
+            this Task<T> source)
+			where T: IEnumerable<TSource>
+            => (await source).ToArray();
         //
         // Summary:
         //     Creates a System.Collections.Generic.Dictionary`2 from an System.Collections.Generic.IEnumerable`1
@@ -4246,9 +4331,9 @@ namespace Open.Linq.AsyncExtensions
         //   T:System.ArgumentException:
         //     keySelector produces duplicate keys for two elements.
         public static async Task<Dictionary<TKey, TSource>> ToDictionary<TSource, TKey>(
-			this Task<IEnumerable<TSource>> source,
+            this Task<IEnumerable<TSource>> source,
             Func<TSource, TKey> keySelector)
-			=> (await source).ToDictionary(keySelector);
+            => (await source).ToDictionary(keySelector);
         //
         // Summary:
         //     Creates a System.Collections.Generic.Dictionary`2 from an System.Collections.Generic.IEnumerable`1
@@ -4282,10 +4367,10 @@ namespace Open.Linq.AsyncExtensions
         //   T:System.ArgumentException:
         //     keySelector produces duplicate keys for two elements.
         public static async Task<Dictionary<TKey, TSource>> ToDictionary<TSource, TKey>(
-			this Task<IEnumerable<TSource>> source,
+            this Task<IEnumerable<TSource>> source,
             Func<TSource, TKey> keySelector,
             IEqualityComparer<TKey> comparer)
-			=> (await source).ToDictionary(keySelector, comparer);
+            => (await source).ToDictionary(keySelector, comparer);
         //
         // Summary:
         //     Creates a System.Collections.Generic.Dictionary`2 from an System.Collections.Generic.IEnumerable`1
@@ -4324,10 +4409,10 @@ namespace Open.Linq.AsyncExtensions
         //   T:System.ArgumentException:
         //     keySelector produces duplicate keys for two elements.
         public static async Task<Dictionary<TKey, TElement>> ToDictionary<TSource, TKey, TElement>(
-			this Task<IEnumerable<TSource>> source,
+            this Task<IEnumerable<TSource>> source,
             Func<TSource, TKey> keySelector,
             Func<TSource, TElement> elementSelector)
-			=> (await source).ToDictionary(keySelector, elementSelector);
+            => (await source).ToDictionary(keySelector, elementSelector);
         //
         // Summary:
         //     Creates a System.Collections.Generic.Dictionary`2 from an System.Collections.Generic.IEnumerable`1
@@ -4370,11 +4455,11 @@ namespace Open.Linq.AsyncExtensions
         //   T:System.ArgumentException:
         //     keySelector produces duplicate keys for two elements.
         public static async Task<Dictionary<TKey, TElement>> ToDictionary<TSource, TKey, TElement>(
-			this Task<IEnumerable<TSource>> source,
+            this Task<IEnumerable<TSource>> source,
             Func<TSource, TKey> keySelector,
             Func<TSource, TElement> elementSelector,
             IEqualityComparer<TKey> comparer)
-			=> (await source).ToDictionary(keySelector, elementSelector, comparer);
+            => (await source).ToDictionary(keySelector, elementSelector, comparer);
         //
         // Summary:
         //     Creates a System.Collections.Generic.List`1 from an System.Collections.Generic.IEnumerable`1.
@@ -4394,9 +4479,10 @@ namespace Open.Linq.AsyncExtensions
         // Exceptions:
         //   T:System.ArgumentNullException:
         //     source is null.
-        public static async Task<List<TSource>> ToList<TSource>(
-			this Task<IEnumerable<TSource>> source)
-			=> (await source).ToList();
+        public static async Task<List<TSource>> ToList<T, TSource>(
+            this Task<T> source)
+			where T: IEnumerable<TSource>
+            => (await source).ToList();
         //
         // Summary:
         //     Creates a System.Linq.Lookup`2 from an System.Collections.Generic.IEnumerable`1
@@ -4424,9 +4510,9 @@ namespace Open.Linq.AsyncExtensions
         //   T:System.ArgumentNullException:
         //     source or keySelector is null.
         public static async Task<ILookup<TKey, TSource>> ToLookup<TSource, TKey>(
-			this Task<IEnumerable<TSource>> source,
+            this Task<IEnumerable<TSource>> source,
             Func<TSource, TKey> keySelector)
-			=> (await source).ToLookup(keySelector);
+            => (await source).ToLookup(keySelector);
         //
         // Summary:
         //     Creates a System.Linq.Lookup`2 from an System.Collections.Generic.IEnumerable`1
@@ -4457,10 +4543,10 @@ namespace Open.Linq.AsyncExtensions
         //   T:System.ArgumentNullException:
         //     source or keySelector is null.
         public static async Task<ILookup<TKey, TSource>> ToLookup<TSource, TKey>(
-			this Task<IEnumerable<TSource>> source,
+            this Task<IEnumerable<TSource>> source,
             Func<TSource, TKey> keySelector,
             IEqualityComparer<TKey> comparer)
-			=> (await source).ToLookup(keySelector, comparer);
+            => (await source).ToLookup(keySelector, comparer);
         //
         // Summary:
         //     Creates a System.Linq.Lookup`2 from an System.Collections.Generic.IEnumerable`1
@@ -4495,10 +4581,10 @@ namespace Open.Linq.AsyncExtensions
         //   T:System.ArgumentNullException:
         //     source or keySelector or elementSelector is null.
         public static async Task<ILookup<TKey, TElement>> ToLookup<TSource, TKey, TElement>(
-			this Task<IEnumerable<TSource>> source,
+            this Task<IEnumerable<TSource>> source,
             Func<TSource, TKey> keySelector,
             Func<TSource, TElement> elementSelector)
-			=> (await source).ToLookup(keySelector, elementSelector);
+            => (await source).ToLookup(keySelector, elementSelector);
         //
         // Summary:
         //     Creates a System.Linq.Lookup`2 from an System.Collections.Generic.IEnumerable`1
@@ -4537,11 +4623,11 @@ namespace Open.Linq.AsyncExtensions
         //   T:System.ArgumentNullException:
         //     source or keySelector or elementSelector is null.
         public static async Task<ILookup<TKey, TElement>> ToLookup<TSource, TKey, TElement>(
-			this Task<IEnumerable<TSource>> source,
+            this Task<IEnumerable<TSource>> source,
             Func<TSource, TKey> keySelector,
             Func<TSource, TElement> elementSelector,
             IEqualityComparer<TKey> comparer)
-			=> (await source).ToLookup(keySelector, elementSelector, comparer);
+            => (await source).ToLookup(keySelector, elementSelector, comparer);
 
         //
         // Summary:
@@ -4567,10 +4653,11 @@ namespace Open.Linq.AsyncExtensions
         // Exceptions:
         //   T:System.ArgumentNullException:
         //     first or second is null.
-        public static async Task<IEnumerable<TSource>> Union<TSource>(
-            this Task<IEnumerable<TSource>> first, IEnumerable<TSource> second)
+        public static async Task<IEnumerable<TSource>> Union<T, TSource>(
+            this Task<T> first, IEnumerable<TSource> second)
+			where T: IEnumerable<TSource>
             => (await first).Union(second);
-        
+
         //
         // Summary:
         //     Produces the set union of two sequences by using a specified System.Collections.Generic.IEqualityComparer`1.
@@ -4598,8 +4685,9 @@ namespace Open.Linq.AsyncExtensions
         // Exceptions:
         //   T:System.ArgumentNullException:
         //     first or second is null.
-        public static async Task<IEnumerable<TSource>> Union<TSource>(
-            this Task<IEnumerable<TSource>> first, IEnumerable<TSource> second, IEqualityComparer<TSource> comparer)
+        public static async Task<IEnumerable<TSource>> Union<T, TSource>(
+            this Task<T> first, IEnumerable<TSource> second, IEqualityComparer<TSource> comparer)
+			where T: IEnumerable<TSource>
             => (await first).Union(second, comparer);
 
         //
@@ -4626,9 +4714,10 @@ namespace Open.Linq.AsyncExtensions
         // Exceptions:
         //   T:System.ArgumentNullException:
         //     source or predicate is null.
-        public static async Task<IEnumerable<TSource>> Where<TSource>(
-			this Task<IEnumerable<TSource>> source, Func<TSource, int, bool> predicate)
-			=> (await source).Where(predicate);
+        public static async Task<IEnumerable<TSource>> Where<T, TSource>(
+            this Task<T> source, Func<TSource, int, bool> predicate)
+			where T: IEnumerable<TSource>
+            => (await source).Where(predicate);
         //
         // Summary:
         //     Filters a sequence of values based on a predicate.
@@ -4651,9 +4740,10 @@ namespace Open.Linq.AsyncExtensions
         // Exceptions:
         //   T:System.ArgumentNullException:
         //     source or predicate is null.
-        public static async Task<IEnumerable<TSource>> Where<TSource>(
-			this Task<IEnumerable<TSource>> source, Func<TSource, bool> predicate)
-			=> (await source).Where(predicate);
+        public static async Task<IEnumerable<TSource>> Where<T, TSource>(
+            this Task<T> source, Func<TSource, bool> predicate)
+			where T: IEnumerable<TSource>
+            => (await source).Where(predicate);
         //
         // Summary:
         //     Applies a specified function to the corresponding elements of two sequences,
@@ -4686,9 +4776,10 @@ namespace Open.Linq.AsyncExtensions
         // Exceptions:
         //   T:System.ArgumentNullException:
         //     first or second is null.
-        public static async Task<IEnumerable<TResult>> Zip<TFirst, TSecond, TResult>(
-			this Task<IEnumerable<TFirst>> first, IEnumerable<TSecond> second, Func<TFirst, TSecond, TResult> resultSelector)
-			=> (await first).Zip(second, resultSelector);
-        
+        public static async Task<IEnumerable<TResult>> Zip<T, TFirst, TSecond, TResult>(
+            this Task<T> first, IEnumerable<TSecond> second, Func<TFirst, TSecond, TResult> resultSelector)
+			where T: IEnumerable<TFirst>
+            => (await first).Zip(second, resultSelector);
+
     }
 }

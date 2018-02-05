@@ -10,6 +10,8 @@
     <RepositoryType>git</RepositoryType>
     <Description>Extensions for method chaining Task&lt;IEnumerable&lt;T&gt;&gt;.  Directly map to synchronous System.Linq methods.</Description>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Version>1.0.1</Version>
+    <PackageReleaseNotes>Implemented proper generic typing to allow for improved type inference and type flow.</PackageReleaseNotes>
   </PropertyGroup>
 
 </Project>
