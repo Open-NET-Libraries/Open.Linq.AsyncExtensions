@@ -501,8 +501,6 @@ namespace Open.Linq.AsyncExtensions
         //
         //   T:System.OverflowException:
         //     The sum of the elements in the sequence is larger than System.Decimal.MaxValue.
-        public static async Task<decimal> Average<TSource>(
-			this Task<IEnumerable<TSource>> source, Func<TSource, decimal> selector)
         public static async Task<decimal> Average<T, TSource>(
             this Task<T> source, Func<TSource, decimal> selector)
 			where T: IEnumerable<TSource>
