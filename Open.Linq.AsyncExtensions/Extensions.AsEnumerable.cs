@@ -63,6 +63,42 @@ namespace Open.Linq.AsyncExtensions
 			this Task<List<TSource>> source)
 			=> (await source).AsEnumerable();
 
+		//
+		// Summary:
+		//     Returns the input typed as System.Collections.Generic.IEnumerable`1.
+		//
+		// Parameters:
+		//   source:
+		//     The sequence to type as System.Collections.Generic.IEnumerable`1.
+		//
+		// Type parameters:
+		//   TSource:
+		//     The type of the elements of source.
+		//
+		// Returns:
+		//     The input sequence typed as System.Collections.Generic.IEnumerable`1.
+		public static async Task<IEnumerable<TSource>> AsEnumerable<TSource>(
+			this Task<ISet<TSource>> source)
+			=> (await source).AsEnumerable();
+
+		//
+		// Summary:
+		//     Returns the input typed as System.Collections.Generic.IEnumerable`1.
+		//
+		// Parameters:
+		//   source:
+		//     The sequence to type as System.Collections.Generic.IEnumerable`1.
+		//
+		// Type parameters:
+		//   TSource:
+		//     The type of the elements of source.
+		//
+		// Returns:
+		//     The input sequence typed as System.Collections.Generic.IEnumerable`1.
+		public static async Task<IEnumerable<TSource>> AsEnumerable<TSource>(
+			this Task<HashSet<TSource>> source)
+			=> (await source).AsEnumerable();
+
 
 		//
 		// Summary:
