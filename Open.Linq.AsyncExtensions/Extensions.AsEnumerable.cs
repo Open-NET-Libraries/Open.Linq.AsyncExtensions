@@ -8,23 +8,77 @@ namespace Open.Linq.AsyncExtensions
 
 	public static partial class Extensions
 	{
-		//
-		// Summary:
-		//     Returns the input typed as System.Collections.Generic.IEnumerable`1.
-		//
-		// Parameters:
-		//   source:
-		//     The sequence to type as System.Collections.Generic.IEnumerable`1.
-		//
-		// Type parameters:
-		//   TSource:
-		//     The type of the elements of source.
-		//
-		// Returns:
-		//     The input sequence typed as System.Collections.Generic.IEnumerable`1.
-		public static async Task<IEnumerable<TSource>> AsEnumerable<TSource>(
+        //
+        // Summary:
+        //     Returns the input typed as System.Collections.Generic.IEnumerable`1.
+        //
+        // Parameters:
+        //   source:
+        //     The sequence to type as System.Collections.Generic.IEnumerable`1.
+        //
+        // Type parameters:
+        //   TSource:
+        //     The type of the elements of source.
+        //
+        // Returns:
+        //     The input sequence typed as System.Collections.Generic.IEnumerable`1.
+        public static async Task<IEnumerable<TSource>> AsEnumerable<TSource>(
+            this Task<IOrderedEnumerable<TSource>> source)
+            => await source;
+
+        //
+        // Summary:
+        //     Returns the input typed as System.Collections.Generic.IEnumerable`1.
+        //
+        // Parameters:
+        //   source:
+        //     The sequence to type as System.Collections.Generic.IEnumerable`1.
+        //
+        // Type parameters:
+        //   TSource:
+        //     The type of the elements of source.
+        //
+        // Returns:
+        //     The input sequence typed as System.Collections.Generic.IEnumerable`1.
+        public static async Task<IEnumerable<IGrouping<TKey, TElement>>> AsEnumerable<TKey, TElement>(
+            this Task<ILookup<TKey, TElement>> source)
+            => await source;
+
+        //
+        // Summary:
+        //     Returns the input typed as System.Collections.Generic.IEnumerable`1.
+        //
+        // Parameters:
+        //   source:
+        //     The sequence to type as System.Collections.Generic.IEnumerable`1.
+        //
+        // Type parameters:
+        //   TSource:
+        //     The type of the elements of source.
+        //
+        // Returns:
+        //     The input sequence typed as System.Collections.Generic.IEnumerable`1.
+        public static async Task<IEnumerable<TElement>> AsEnumerable<TKey, TElement>(
+            this Task<IGrouping<TKey, TElement>> source)
+            => await source;
+
+        //
+        // Summary:
+        //     Returns the input typed as System.Collections.Generic.IEnumerable`1.
+        //
+        // Parameters:
+        //   source:
+        //     The sequence to type as System.Collections.Generic.IEnumerable`1.
+        //
+        // Type parameters:
+        //   TSource:
+        //     The type of the elements of source.
+        //
+        // Returns:
+        //     The input sequence typed as System.Collections.Generic.IEnumerable`1.
+        public static async Task<IEnumerable<TSource>> AsEnumerable<TSource>(
 			this Task<ICollection<TSource>> source)
-			=> (await source).AsEnumerable();
+			=> await source;
 
 		//
 		// Summary:
@@ -42,7 +96,7 @@ namespace Open.Linq.AsyncExtensions
 		//     The input sequence typed as System.Collections.Generic.IEnumerable`1.
 		public static async Task<IEnumerable<TSource>> AsEnumerable<TSource>(
 			this Task<IList<TSource>> source)
-			=> (await source).AsEnumerable();
+			=> await source;
 
 
 		//
@@ -61,7 +115,7 @@ namespace Open.Linq.AsyncExtensions
 		//     The input sequence typed as System.Collections.Generic.IEnumerable`1.
 		public static async Task<IEnumerable<TSource>> AsEnumerable<TSource>(
 			this Task<List<TSource>> source)
-			=> (await source).AsEnumerable();
+			=> await source;
 
 		//
 		// Summary:
@@ -79,7 +133,7 @@ namespace Open.Linq.AsyncExtensions
 		//     The input sequence typed as System.Collections.Generic.IEnumerable`1.
 		public static async Task<IEnumerable<TSource>> AsEnumerable<TSource>(
 			this Task<ISet<TSource>> source)
-			=> (await source).AsEnumerable();
+			=> await source;
 
 		//
 		// Summary:
@@ -97,7 +151,7 @@ namespace Open.Linq.AsyncExtensions
 		//     The input sequence typed as System.Collections.Generic.IEnumerable`1.
 		public static async Task<IEnumerable<TSource>> AsEnumerable<TSource>(
 			this Task<HashSet<TSource>> source)
-			=> (await source).AsEnumerable();
+			=> await source;
 
 
 		//
@@ -116,7 +170,7 @@ namespace Open.Linq.AsyncExtensions
 		//     The input sequence typed as System.Collections.Generic.IEnumerable`1.
 		public static async Task<IEnumerable<TSource>> AsEnumerable<TSource>(
 			this Task<TSource[]> source)
-			=> (await source).AsEnumerable();
+			=> await source;
 
 		//
 		// Summary:
@@ -174,7 +228,7 @@ namespace Open.Linq.AsyncExtensions
 		//     The input sequence typed as System.Collections.Generic.IEnumerable`1.
 		public static async Task<IEnumerable<KeyValuePair<TKey,TValue>>> AsEnumerable<TKey, TValue>(
 			this Task<IDictionary<TKey, TValue>> source)
-			=> (await source).AsEnumerable();
+			=> await source;
 
 		//
 		// Summary:
@@ -192,6 +246,6 @@ namespace Open.Linq.AsyncExtensions
 		//     The input sequence typed as System.Collections.Generic.IEnumerable`1.
 		public static async Task<IEnumerable<KeyValuePair<TKey, TValue>>> AsEnumerable<TKey, TValue>(
 			this Task<Dictionary<TKey, TValue>> source)
-			=> (await source).AsEnumerable();
+			=> await source;
 	}
 }
