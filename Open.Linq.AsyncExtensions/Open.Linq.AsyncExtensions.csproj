@@ -2,26 +2,36 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-    <Authors>electricessence</Authors>
-    <Company>electricessence</Company>
-    <PackageLicenseUrl>https://github.com/electricessence/Open.Linq.AsyncExtensions/blob/master/LICENSE</PackageLicenseUrl>
+		<LangVersion>latest</LangVersion>
+		<Nullable>enable</Nullable>
+		<GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+		<Authors>electricessence</Authors>
     <PackageProjectUrl>https://github.com/electricessence/Open.Linq.AsyncExtensions</PackageProjectUrl>
     <RepositoryUrl>https://github.com/electricessence/Open.Linq.AsyncExtensions</RepositoryUrl>
     <RepositoryType>git</RepositoryType>
     <Description>Extensions for method chaining Task&lt;IEnumerable&lt;T&gt;&gt;.  Directly map to synchronous System.Linq methods.</Description>
-    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-    <Version>1.1.2</Version>
-    <PackageReleaseNotes>Added .AsEnumerable() methods to overcome type inference specificity problems.</PackageReleaseNotes>
-    <AssemblyVersion>1.1.1.0</AssemblyVersion>
-    <FileVersion>1.1.1.0</FileVersion>
-    <PublishRepositoryUrl>true</PublishRepositoryUrl>
-    <IncludeSymbols>true</IncludeSymbols>
-    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+		<PackageTags>linq;async;task</PackageTags>
+		<Copyright>© electricessence (Oren F.) All rights reserved.</Copyright>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <Version>1.2.0</Version>
+		<PackageReleaseNotes></PackageReleaseNotes>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<PublishRepositoryUrl>true</PublishRepositoryUrl>
+		<IncludeSymbols>true</IncludeSymbols>
+		<SymbolPackageFormat>snupkg</SymbolPackageFormat>
+		<PackageIcon>logo.png</PackageIcon>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.0.0" PrivateAssets="All" />
   </ItemGroup>
+
+	<ItemGroup>
+		<None Include="logo.png">
+			<Pack>True</Pack>
+			<PackagePath></PackagePath>
+		</None>
+	</ItemGroup>
 
 
 </Project>
